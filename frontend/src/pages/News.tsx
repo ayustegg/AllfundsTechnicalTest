@@ -7,37 +7,79 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from '../components/ui/card';
-import { Button } from '../components/ui/button';
-import type { NewsItem } from '../types/news';
+} from '@/components/ui/card';
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationPrevious,
+    PaginationNext,
+    PaginationEllipsis
+} from '@/components/ui/pagination';
+import { Button } from '@/components/ui/button';
+import type { NewsItem } from '@/types/news';
+
 
 export const News = () => {
 
     const [news, setNews] = useState<NewsItem[]>([]);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalItems, setTotalItems] = useState(0);
+
+    const fetchNews = async (pageToFetch: number) => {
+        try {
+            const response = await fetch(`http://localhost:4000/api/news?page=${pageToFetch}&limit=3`);
+            const data = await response.json();
+            setNews(data.data);
+            setTotalPages(data.totalPages);
+            setTotalItems(data.totalItems);
+        } catch (error) {
+            console.error('Error fetching news:', error);
+            setNews([]);
+            setTotalPages(1);
+        }
+    };
 
     useEffect(() => {
-        const fetchNews = async () => {
-            try {
-                const response = await fetch('/mongo.json');
-                const data = await response.json();
-                const news: NewsItem[] = data.filter((item: NewsItem) => !item.archiveDate);
-                setNews(news);
-                console.log(data);
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-        fetchNews();
-    }, []);
+        fetchNews(page);
+    }, [page]);
 
-    const handleArchive = (index: number) => {
-        setNews(prevNews => prevNews.filter((_, i) => i !== index));
+    const handleArchive = async (id: string) => {
+        try {
+            const response = await fetch(`http://localhost:4000/api/news/${id}/archive`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            if (!response.ok) throw new Error('Failed to archive item');
+
+            const updatedNews = news.filter(item => item._id !== id);
+
+            if (updatedNews.length === 0 && page > 1) {
+                setPage(page - 1);
+            } else {
+                fetchNews(page);
+            }
+        } catch (error) {
+            console.error('Error archiving news:', error);
+        }
     };
+
     return <>
         <h1 className="text-2xl font-bold mb-4">News</h1>
+        {news.length === 0 && (
+            <p className="text-gray-500 mb-4">No news available.</p>
+        )}
+        <Button
+            className="mb-4"
+            onClick={() => window.location.href = '/news/create'}
+        >
+            Create
+        </Button>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {news.map((item, index) => (
-                <Card key={index} className="w-full max-w-sm">
+                <Card key={index} className="w-full max-w-sm min-h-[350px]">
                     <CardHeader>
                         <CardTitle>{item.title}</CardTitle>
                         <CardDescription>{item.description}</CardDescription>
@@ -45,12 +87,16 @@ export const News = () => {
                     <CardContent>
                         <p>{item.content}</p>
                     </CardContent>
-                    <CardFooter className="flex-col gap-2">
+                    <CardFooter className="flex-col">
                         <span className="text-sm text-gray-500">
-                            {new Date(item.date).toLocaleDateString()}
+                            Author: {item.author}
+                        </span>
+                        <span className="text-sm text-gray-500">
+                            Date: {item.date}
                         </span>
                         <Button
-                            onClick={() => handleArchive(index)}
+                            className='mt-2'
+                            onClick={() => handleArchive(item._id)}
                         >
                             Archive
                         </Button>
@@ -58,6 +104,62 @@ export const News = () => {
                 </Card>
             ))}
         </div>
+        {news.length !== 0 && (
+            <>
+                <Pagination className="mt-4">
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationPrevious
+                                href="#"
+                                onClick={(e: Event) => {
+                                    e.preventDefault();
+                                    setPage(prev => Math.max(prev - 1, 1));
+                                }}
+                                disabled={page === 1}
+                            />
+                        </PaginationItem>
+
+                        {[...Array(totalPages)].map((_, i) => (
+                            <PaginationItem key={i}>
+                                <PaginationLink
+                                    href="#"
+                                    isActive={page === i + 1}
+                                    onClick={(e: Event) => {
+                                        e.preventDefault();
+                                        setPage(i + 1);
+                                    }}
+                                >
+                                    {i + 1}
+                                </PaginationLink>
+                            </PaginationItem>
+                        ))}
+
+                        {totalPages > 5 && page < totalPages - 2 && (
+                            <PaginationItem>
+                                <PaginationEllipsis />
+                            </PaginationItem>
+                        )}
+
+                        <PaginationItem>
+                            <PaginationNext
+                                href="#"
+                                onClick={(e: Event) => {
+                                    e.preventDefault();
+                                    setPage(prev => Math.min(prev + 1, totalPages));
+                                }}
+                                disabled={page === totalPages}
+                            />
+                        </PaginationItem>
+                    </PaginationContent>
+
+
+
+                </Pagination>
+                <p className="text-sm text-gray-500 mt-2">
+                    Items: {news.length} | Total items {totalItems}
+                </p>
+            </>
+        )}
         <br />
     </>;
 };
