@@ -6,6 +6,7 @@ import { NavigationMenu, NavigationMenuItem, NavigationMenuList, NavigationMenuL
 import { Home } from './pages/Home';
 import { News } from './pages/News';
 import { Archived } from './pages/Archived';
+import { CreateNews } from './pages/CreateNews';
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/news" element={<News />} />
           <Route path="/archived" element={<Archived />} />
+          <Route path="/news/create" element={<CreateNews />} />
         </Routes>
 
       </BrowserRouter>
