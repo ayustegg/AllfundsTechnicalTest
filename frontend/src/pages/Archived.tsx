@@ -74,12 +74,6 @@ export const Archived = () => {
         {news.length === 0 && (
             <p className="text-gray-500 mb-4">No news archived available.</p>
         )}
-        <Button
-            className="mb-4"
-            onClick={() => window.location.href = '/news/create'}
-        >
-            Create
-        </Button>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {news.map((item, index) => (
                 <Card key={index} className="w-full max-w-sm min-h-[350px]">
