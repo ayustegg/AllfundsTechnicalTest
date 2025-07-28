@@ -17,7 +17,7 @@ export const Archived = () => {
   const fetchNews = async (pageToFetch: number) => {
     try {
       const response = await fetch(
-        `${API_URL}${API_ENDPOINTS.ARCHIVE}?page=${pageToFetch}&limit=3`
+        `${API_URL}${API_ENDPOINTS().ARCHIVE}?page=${pageToFetch}&limit=3`
       );
       const data = await response.json();
       setNews(data.data);
@@ -37,12 +37,15 @@ export const Archived = () => {
   const handleDelete = async (index: string) => {
     console.error("Deleting news item with index:", index);
     try {
-      const response = await fetch(`${API_URL}${API_ENDPOINTS.NEWS}/${index}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${API_URL}${API_ENDPOINTS().NEWS}/${index}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (!response.ok) throw new Error("Failed to archive item");
 
       const updatedNews = news.filter((item) => item._id !== index);

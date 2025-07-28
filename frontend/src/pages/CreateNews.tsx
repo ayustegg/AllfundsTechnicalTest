@@ -47,7 +47,7 @@ export const CreateNews = () => {
 
   function onSubmit(values: z.infer<typeof formNewSchema>) {
     const { title, description, content, date, author } = values;
-    fetch(`${API_URL}${API_ENDPOINTS.CREATE}`, {
+    fetch(`${API_URL}${API_ENDPOINTS().CREATE}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

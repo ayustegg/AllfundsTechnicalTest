@@ -19,7 +19,7 @@ export const News = () => {
   const fetchNews = async (pageToFetch: number) => {
     try {
       const response = await fetch(
-        `${API_URL}${API_ENDPOINTS.NEWS}?page=${pageToFetch}&limit=3`
+        `${API_URL}${API_ENDPOINTS().NEWS}?page=${pageToFetch}&limit=3`
       );
       const data = await response.json();
       setNews(data.data);
@@ -38,13 +38,10 @@ export const News = () => {
 
   const handleArchive = async (id: string) => {
     try {
-      const response = await fetch(
-        `${API_URL}${API_ENDPOINTS.NEWS}/${id}${API_ENDPOINTS.ARCHIVE}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const response = await fetch(`${API_URL}${API_ENDPOINTS(id).ARCHIVE}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+      });
       if (!response.ok) throw new Error("Failed to archive item");
 
       const updatedNews = news.filter((item) => item._id !== id);
