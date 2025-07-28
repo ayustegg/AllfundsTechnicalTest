@@ -39,7 +39,7 @@ export const News = () => {
   const handleArchive = async (id: string) => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/news/${id}/archive`,
+        `${API_URL}${API_ENDPOINTS.NEWS}/${id}${API_ENDPOINTS.ARCHIVE}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
