@@ -1,16 +1,9 @@
 import { useEffect, useState } from "react";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { PaginationComponent } from "@/components/pagination-component";
+import { NewsCard } from "@/components/news-card";
 
 import type { NewsItem } from "@/types/news";
 import { API_ENDPOINTS, API_URL } from "@/constants/api";
@@ -84,24 +77,14 @@ export const News = () => {
       </Button>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {news.map((item, index) => (
-          <Card key={index} className="w-full max-w-sm min-h-[350px]">
-            <CardHeader>
-              <CardTitle>{item.title}</CardTitle>
-              <CardDescription>{item.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>{item.content}</p>
-            </CardContent>
-            <CardFooter className="flex-col">
-              <span className="text-sm text-gray-500">
-                Author: {item.author}
-              </span>
-              <span className="text-sm text-gray-500">Date: {item.date}</span>
-              <Button className="mt-2" onClick={() => handleArchive(item._id)}>
-                Archive
-              </Button>
-            </CardFooter>
-          </Card>
+          <NewsCard
+            key={index}
+            item={item}
+            actionType="archive"
+            onAction={handleArchive}
+            actionLabel="Archive"
+            actionVariant="default"
+          />
         ))}
       </div>
       {news.length !== 0 && (
