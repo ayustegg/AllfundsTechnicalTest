@@ -42,17 +42,14 @@ export const News = () => {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
       });
-      if (!response.ok) throw new Error("Failed to archive item");
+      if (!response.ok) {
+        throw new Error("Failed to archive item");
+      }
 
-      const updatedNews = news.filter((item) => item._id !== id);
       setAlertMessage(`Noticia archivada exitosamente`);
       setShowAlert(true);
 
-      if (updatedNews.length === 0 && page > 1) {
-        setPage(page - 1);
-      } else {
-        fetchNews(page);
-      }
+      fetchNews(page);
     } catch (error) {
       console.error("Error archiving news:", error);
       setAlertMessage("Error al archivar la noticia");

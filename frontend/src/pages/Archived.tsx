@@ -34,29 +34,20 @@ export const Archived = () => {
     fetchNews(page);
   }, [page]);
 
-  const handleDelete = async (index: string) => {
-    console.error("Deleting news item with index:", index);
+  const handleDelete = async (id: string) => {
     try {
-      const response = await fetch(
-        `${API_URL}${API_ENDPOINTS().NEWS}/${index}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (!response.ok) throw new Error("Failed to archive item");
-
-      const updatedNews = news.filter((item) => item._id !== index);
+      const response = await fetch(`${API_URL}${API_ENDPOINTS().NEWS}/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to archive item");
+      }
       setAlertMessage("Noticia eliminada exitosamente");
       setShowAlert(true);
-
-      if (updatedNews.length === 0 && page > 1) {
-        setPage(page - 1);
-      } else {
-        fetchNews(page);
-      }
+      fetchNews(page);
     } catch (error) {
       console.error("Error:", error);
       setAlertMessage("Error al eliminar la noticia");
