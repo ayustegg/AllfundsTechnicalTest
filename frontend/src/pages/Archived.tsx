@@ -17,7 +17,7 @@ export const Archived = () => {
   const fetchNews = async (pageToFetch: number) => {
     try {
       const response = await fetch(
-        `${API_URL}${API_ENDPOINTS().ARCHIVE}?page=${pageToFetch}&limit=3`
+        `${API_URL}${API_ENDPOINTS().NEWS_ARCHIVED}?page=${pageToFetch}&limit=3`
       );
       const data = await response.json();
       setNews(data.data);
