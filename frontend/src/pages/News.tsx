@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Alert, AlertTitle } from "@/components/ui/alert";
 import { PaginationComponent } from "@/components/pagination-component";
 import { NewsCard } from "@/components/news-card";
 
 import type { NewsItem } from "@/types/news";
 import { API_ENDPOINTS, API_URL } from "@/constants/api";
+import { NewsAlerts } from "@/components/news-alerts";
 
 export const News = () => {
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -45,7 +45,7 @@ export const News = () => {
       if (!response.ok) throw new Error("Failed to archive item");
 
       const updatedNews = news.filter((item) => item._id !== id);
-      setAlertMessage("Noticia archivada exitosamente");
+      setAlertMessage(`Noticia archivada exitosamente`);
       setShowAlert(true);
 
       if (updatedNews.length === 0 && page > 1) {
@@ -97,17 +97,11 @@ export const News = () => {
         </>
       )}
       {showAlert && (
-        <Alert
-          className={`max-w-sm duration-300 ${
-            alertMessage.includes("Error")
-              ? "bg-red-500 text-white border-red-600"
-              : "bg-green-500 text-white border-green-600"
-          }`}
-        >
-          <AlertTitle className="text-sm font-medium">
-            {alertMessage}
-          </AlertTitle>
-        </Alert>
+        <NewsAlerts
+          message={alertMessage}
+          showAlert={showAlert}
+          setShowAlert={setShowAlert}
+        />
       )}
     </>
   );
