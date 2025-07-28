@@ -18,8 +18,10 @@ import {
   PaginationEllipsis,
 } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
-import type { NewsItem } from "@/types/news";
 import { Alert, AlertTitle } from "@/components/ui/alert";
+
+import type { NewsItem } from "@/types/news";
+import { API_ENDPOINTS, API_URL } from "@/constants/api";
 
 export const News = () => {
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -32,7 +34,7 @@ export const News = () => {
   const fetchNews = async (pageToFetch: number) => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/news?page=${pageToFetch}&limit=3`
+        `${API_URL}${API_ENDPOINTS.NEWS}?page=${pageToFetch}&limit=3`
       );
       const data = await response.json();
       setNews(data.data);

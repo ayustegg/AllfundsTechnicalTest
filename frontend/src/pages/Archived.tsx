@@ -18,8 +18,9 @@ import {
   PaginationEllipsis,
 } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
-import type { NewsItem } from "@/types/news";
 import { Alert, AlertTitle } from "@/components/ui/alert";
+import type { NewsItem } from "@/types/news";
+import { API_ENDPOINTS, API_URL } from "@/constants/api";
 
 export const Archived = () => {
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -32,7 +33,7 @@ export const Archived = () => {
   const fetchNews = async (pageToFetch: number) => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/news/archive?page=${pageToFetch}&limit=3`
+        `${API_URL}${API_ENDPOINTS.ARCHIVE}?page=${pageToFetch}&limit=3`
       );
       const data = await response.json();
       setNews(data.data);
@@ -52,7 +53,7 @@ export const Archived = () => {
   const handleDelete = async (index: string) => {
     console.error("Deleting news item with index:", index);
     try {
-      const response = await fetch("http://localhost:4000/api/news/" + index, {
+      const response = await fetch(`${API_URL}${API_ENDPOINTS.NEWS}/${index}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
