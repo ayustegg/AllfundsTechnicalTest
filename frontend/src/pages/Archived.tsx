@@ -8,17 +8,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationPrevious,
-  PaginationNext,
-  PaginationEllipsis,
-} from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertTitle } from "@/components/ui/alert";
+import { PaginationComponent } from "@/components/pagination-component";
 import type { NewsItem } from "@/types/news";
 import { API_ENDPOINTS, API_URL } from "@/constants/api";
 
@@ -111,52 +103,11 @@ export const Archived = () => {
       </div>
       {news.length !== 0 && (
         <>
-          <Pagination className="mt-4">
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  href="#"
-                  onClick={(e: Event) => {
-                    e.preventDefault();
-                    setPage((prev) => Math.max(prev - 1, 1));
-                  }}
-                  disabled={page === 1}
-                />
-              </PaginationItem>
-
-              {[...Array(totalPages)].map((_, i) => (
-                <PaginationItem key={i}>
-                  <PaginationLink
-                    href="#"
-                    isActive={page === i + 1}
-                    onClick={(e: Event) => {
-                      e.preventDefault();
-                      setPage(i + 1);
-                    }}
-                  >
-                    {i + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
-
-              {totalPages > 5 && page < totalPages - 2 && (
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )}
-
-              <PaginationItem>
-                <PaginationNext
-                  href="#"
-                  onClick={(e: Event) => {
-                    e.preventDefault();
-                    setPage((prev) => Math.min(prev + 1, totalPages));
-                  }}
-                  disabled={page === totalPages}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+          <PaginationComponent
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
           <p className="text-sm text-gray-500 mt-2">
             Items: {news.length} | Total items {totalItems}
           </p>
