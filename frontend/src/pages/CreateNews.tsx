@@ -1,6 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +16,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { API_ENDPOINTS, API_URL } from "@/constants/api";
+
+import { NewsAlerts } from "@/components/news-alerts";
 
 const formNewSchema = z.object({
   title: z.string().min(2, {
@@ -34,6 +38,9 @@ const formNewSchema = z.object({
 });
 
 export const CreateNews = () => {
+  const [alertMessage, setAlertMessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formNewSchema>>({
     resolver: zodResolver(formNewSchema),
     defaultValues: {
@@ -64,20 +71,17 @@ export const CreateNews = () => {
         if (!response.ok) {
           throw new Error("Failed to create news");
         }
-        return response.json();
-      })
-      .then((data) => {
-        if (data.success) {
-          console.log("News created successfully");
-        } else {
-          console.error("Failed to create news:", data.message);
-        }
-        window.location.href = "/news";
+        setAlertMessage("Noticia creada exitosamente");
+        setShowAlert(true);
+        setTimeout(() => {
+          navigate("/news");
+        }, 2000);
       })
       .catch((error) => {
         console.error("Error:", error);
+        setAlertMessage("Error al crear la noticia");
+        setShowAlert(true);
       });
-    console.log("Form submitted:", values);
   }
   return (
     <>
@@ -86,7 +90,7 @@ export const CreateNews = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 max-w-md justify-center mx-auto"
+          className="space-y-4 max-w-md justify-center mx-auto mb-4"
         >
           <FormField
             control={form.control}
@@ -143,7 +147,6 @@ export const CreateNews = () => {
               <FormItem>
                 <FormLabel>Date</FormLabel>
                 <FormControl>
-                  {/*     "date": "2025-06-15T12:30:00.000Z", */}
                   <Input
                     type="datetime-local"
                     placeholder="YYYY-MM-DDTHH:MM:SSZ"
@@ -176,6 +179,13 @@ export const CreateNews = () => {
           </Button>
         </form>
       </Form>
+      {showAlert && (
+        <NewsAlerts
+          message={alertMessage}
+          showAlert={showAlert}
+          setShowAlert={setShowAlert}
+        />
+      )}
     </>
   );
 };
