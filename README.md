@@ -168,9 +168,9 @@ cd AllfundsTechnicalTest
 
 docker-compose up --build
 
-# Frontend: http://localhost:3000
-# Backend http://localhost:4000
-# Swagger Backend: http://localhost:4000/swagger
+# Frontend: http://localhost:5173
+# Backend http://localhost:3000
+# Swagger Backend: http://localhost:3000/swagger
 ```
 
 ### Opción 2: "Dev"
