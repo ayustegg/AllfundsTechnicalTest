@@ -361,7 +361,7 @@ export async function archiveNews(req: Request, res: Response) {
       { new: true }
     );
     if (!news) return res.status(404).json({ message: "New not found" });
-    res.json({ message: "New Deleted" });
+    res.json({ message: "New Archived" });
   } catch (err: any) {
     res.status(500).json({ message: err.message });
   }
