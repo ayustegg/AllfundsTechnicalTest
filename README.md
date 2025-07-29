@@ -133,11 +133,23 @@ Se han realizado con Vitest algunos test unitarios para los componentes que he r
 - **PaginationComponent**
 - **NewsAlerts**
 
+Para ejecutar los test del frontend debes realizar el siguiente comando en la carpeta de frontend
+
+```bash
+npm run test
+```
+
 ### Cobertura de Tests Backend
 
 Se han realizado con jest, en esta parte se ha testeado con test unitarios el Controlador de Noticias. Faltaría testear los endpoint para ver que respondan correctamente.
 
 - **News Controller**
+
+Para ejecutar los test del backend debes realizar el siguiente comando en la carpeta de backend
+
+```bash
+npm run test
+```
 
 ## Dockerización
 
