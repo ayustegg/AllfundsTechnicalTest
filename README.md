@@ -156,9 +156,24 @@ services:
 - **Volumen persistente de la base de datos**
 - **Nginx configurado en el Frontend para poder servir la web**
 
-## Instrucciones para ejecutar el proyecto
+## Variables de Entorno
 
-### Opción 1: "Producción"
+No son necesarias pero se pueden configurar, habría que cambiar configuraciones para el docker si se cambian.
+
+### Frontend (.env)
+
+```bash
+REACT_APP_BACKEND_API_URL=http://localhost:3000/api
+```
+
+### Backend (.env)
+
+```bash
+MONGODB_URI='MONGODB_URI=mongodb://localhost:27017/news_db'
+PORT='3000'
+```
+
+## Instrucciones para ejecutar el proyecto
 
 Si no vas a realizar cambios en el codigo esta es la forma que lo tienes todo en un mismo contenedor y lo ejecutas con un solo comando.
 
