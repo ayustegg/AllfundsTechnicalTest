@@ -1,4 +1,5 @@
-export const API_URL = "http://localhost:3000/api";
+export const API_URL =
+  process.env.REACT_APP_BACKEND_API_URL || "http://localhost:3000/api";
 
 export const API_ENDPOINTS = (id?: string) =>
   ({
