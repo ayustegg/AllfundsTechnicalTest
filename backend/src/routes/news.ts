@@ -1,6 +1,13 @@
-import express from 'express';
+import express from "express";
 const router = express.Router();
-import { getActiveNews, getArchiveNews, archiveNews, createNews, deleteNews } from '../controller/news';
+import {
+  getActiveNews,
+  getArchiveNews,
+  archiveNews,
+  createNews,
+  deleteNews,
+  seedDatabase,
+} from "../controller/news";
 
 /**
  * @swagger
@@ -33,7 +40,7 @@ import { getActiveNews, getArchiveNews, archiveNews, createNews, deleteNews } fr
  *                 totalPages:
  *                   type: integer
  */
-router.get('/', getActiveNews);
+router.get("/", getActiveNews);
 
 /**
  * @swagger
@@ -61,7 +68,7 @@ router.get('/', getActiveNews);
  *               items:
  *                 $ref: '#/components/schemas/NewsItem'
  */
-router.get('/archive', getArchiveNews);
+router.get("/archive", getArchiveNews);
 
 /**
  * @swagger
@@ -78,7 +85,7 @@ router.get('/archive', getArchiveNews);
  *       201:
  *         description: News item created successfully
  */
-router.post('/', createNews);
+router.post("/", createNews);
 
 /**
  * @swagger
@@ -96,7 +103,7 @@ router.post('/', createNews);
  *       200:
  *         description: News item archived successfully
  */
-router.put('/:id/archive', archiveNews);
+router.put("/:id/archive", archiveNews);
 
 /**
  * @swagger
@@ -114,6 +121,30 @@ router.put('/:id/archive', archiveNews);
  *       200:
  *         description: News item deleted successfully
  */
-router.delete('/:id', deleteNews);
+router.delete("/:id", deleteNews);
+
+/**
+ * @swagger
+ * /api/news/seed:
+ *   post:
+ *     summary: Seed the database with sample news data
+ *     responses:
+ *       200:
+ *         description: Database seeded successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 count:
+ *                   type: integer
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/NewsItem'
+ */
+router.post("/seed", seedDatabase);
 
 export default router;
