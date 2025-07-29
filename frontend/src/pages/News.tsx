@@ -46,13 +46,13 @@ export const News = () => {
         throw new Error("Failed to archive item");
       }
 
-      setAlertMessage(`Noticia archivada exitosamente`);
+      setAlertMessage(`News archived successfully`);
       setShowAlert(true);
 
       fetchNews(page);
     } catch (error) {
       console.error("Error archiving news:", error);
-      setAlertMessage("Error al archivar la noticia");
+      setAlertMessage("Error archiving news");
       setShowAlert(true);
     }
   };

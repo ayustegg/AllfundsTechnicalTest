@@ -45,12 +45,12 @@ export const Archived = () => {
       if (!response.ok) {
         throw new Error("Failed to archive item");
       }
-      setAlertMessage("Noticia eliminada exitosamente");
+      setAlertMessage("News deleted successfully");
       setShowAlert(true);
       fetchNews(page);
     } catch (error) {
       console.error("Error:", error);
-      setAlertMessage("Error al eliminar la noticia");
+      setAlertMessage("Error deleting news");
       setShowAlert(true);
     }
   };

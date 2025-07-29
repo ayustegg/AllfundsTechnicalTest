@@ -71,7 +71,7 @@ export const CreateNews = () => {
         if (!response.ok) {
           throw new Error("Failed to create news");
         }
-        setAlertMessage("Noticia creada exitosamente");
+        setAlertMessage("News created successfully");
         setShowAlert(true);
         setTimeout(() => {
           navigate("/news");
@@ -79,7 +79,7 @@ export const CreateNews = () => {
       })
       .catch((error) => {
         console.error("Error:", error);
-        setAlertMessage("Error al crear la noticia");
+        setAlertMessage("Error creating news");
         setShowAlert(true);
       });
   }
