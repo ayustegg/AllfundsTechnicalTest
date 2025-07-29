@@ -179,6 +179,7 @@ Esta opción es la más comoda si vas a realizar cambios en local y los quieres 
 
 ```bash
 # Backend en una terminal
+docker compose up -d
 cd backend
 npm install
 npm start
