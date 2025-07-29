@@ -34,7 +34,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
   };
 
   return (
-    <Card className="w-full max-w-sm min-h-[350px] overflow-hidden">
+    <Card className="w-full min-h-[350px] overflow-hidden">
       <CardHeader>
         <CardTitle className="truncate w-full">{item.title}</CardTitle>
         <CardDescription className="truncate w-full">
