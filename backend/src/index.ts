@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 const specs = swaggerJsdoc(swaggerOptions);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(specs));
 
 connectDB();
 app.get("/", (req: Request, res: Response) => {
